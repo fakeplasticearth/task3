@@ -7,11 +7,9 @@ vector <int> to1d(vector <vector <int> > matrix, int m, int n) {
     vector <int> ans(m * n);
     vector <vector <int> >::iterator it1;
     vector <int>::iterator it2;
-    vector <int>::iterator it3 = ans.begin();
     for (it1 = matrix.begin(); it1 != matrix.end(); it1++) {
         for (it2 = (*it1).begin(); it2 != (*it1).end(); it2++) {
-            *it3 = *it2;
-            it3++;
+            *(ans.begin() + (it1 - matrix.begin()) * n + (it2 - (*it1).begin())) = *it2;
         }
     }
     return ans;
@@ -19,15 +17,11 @@ vector <int> to1d(vector <vector <int> > matrix, int m, int n) {
 
 vector <vector<int> > to2d(vector <int> array1d, int m, int n) {
     vector < vector <int> > matrix(m, vector <int>(n));
-    vector <vector <int> >::iterator it1 = matrix.begin();
-    vector <int>::iterator it2 = (*it1).begin();
+    int row, col;
     for (vector<int>::iterator it = array1d.begin(); it != array1d.end(); it++) {
-        if ((it - array1d.begin()) % n == 0 && it - array1d.begin() != 0) {
-            it1++;
-            it2 = (*it1).begin();
-        }
-        *it2 = *it;
-        it2++;
+        row = (it - array1d.begin()) / n;
+        col = (it - array1d.begin()) % n;
+        *((*(matrix.begin() + row)).begin() + col) = *it;
     }
     return matrix;
 }
